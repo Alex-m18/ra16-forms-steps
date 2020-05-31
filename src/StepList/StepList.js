@@ -9,6 +9,11 @@ export default function StepList(props) {
   const handleRemove = (id) => props.onRemove(id);
   const handleEdit = (id) => props.onEdit(id);
 
+  const sortedSteps = steps.sort((a, b) => {
+    if (Date.parse(a.date) > Date.parse(b.date)) return 1;
+    return -1;
+  });
+
   return (
     <div className='step-list'>
       <div className='step-list-header'>
@@ -18,7 +23,7 @@ export default function StepList(props) {
       </div>
       <div className='step-list-body'>
         {
-          steps.map((o) => 
+          sortedSteps.map((o) => 
             <StepItem
               item={o}
               onEdit={() => handleEdit(o.id)}

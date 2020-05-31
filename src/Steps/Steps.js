@@ -2,6 +2,7 @@ import React from 'react';
 import StepModel from './StepModel';
 import StepAddForm from '../StepAddForm/StepAddForm';
 import StepList from '../StepList/StepList';
+import moment from 'moment';
 import './Steps.css';
 
 export default function Steps(props) {
@@ -14,18 +15,21 @@ export default function Steps(props) {
   };
 
   const handleSubmit = () => {
-    const { date, distance } = form;
+    const { distance } = form;
+    const mDate = moment(form.date, 'DD.MM.YY', true);
+    if (!mDate.isValid()) return;
+    const date = mDate.toDate();
 
     if (editingStepID) {
       const oldDate = steps.find((o) => o.id === editingStepID).date;
       setSteps((prevSteps) => prevSteps.map((o) => {
-        if (o.date === oldDate) return new StepModel(date, Number(distance));
+        if (o.date.valueOf() === oldDate.valueOf()) return new StepModel(date, Number(distance));
         return o;
       }));
     } else {
-      if (steps.find((o) => o.date === date)) {
+      if (steps.find((o) => o.date.valueOf() === date.valueOf())) {
         setSteps((prevSteps) => prevSteps.map((o) => {
-          if (o.date === date) return new StepModel(date, Number(distance) + o.distance);
+          if (o.date.valueOf() === date.valueOf()) return new StepModel(date, Number(distance) + o.distance);
           return o;
         }));
       } else {
@@ -44,7 +48,7 @@ export default function Steps(props) {
   const handleEdit = (id) => {
     const step = steps.find((o) => o.id === id);
     setEditingStepID(step.id);
-    setForm({ date: step.date, distance: step.distance });
+    setForm({ date: moment(step.date).format('DD.MM.YY'), distance: step.distance });
   }
 
   return (

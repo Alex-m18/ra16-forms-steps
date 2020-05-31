@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StepModel from '../Steps/StepModel';
+import moment from 'moment';
 import './StepItem.css';
 
 export default function StepItem(props) {
@@ -8,7 +9,7 @@ export default function StepItem(props) {
 
   return (
     <div className='step-item'>
-      <div className='step-item-date'>{date}</div>
+      <div className='step-item-date'>{moment(date).format('DD.MM.YY')}</div>
       <div className='step-item-distance'>{distance.toFixed(1)}</div>
       <div className='step-item-actions'>
         <i className={'material-icons'} title='Edit' onClick={props.onEdit}>edit</i>
