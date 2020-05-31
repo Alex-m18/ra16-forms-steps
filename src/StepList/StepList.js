@@ -10,7 +10,7 @@ export default function StepList(props) {
   const handleEdit = (id) => props.onEdit(id);
 
   const sortedSteps = steps.sort((a, b) => {
-    if (Date.parse(a.date) > Date.parse(b.date)) return 1;
+    if (Date.parse(a.date) < Date.parse(b.date)) return 1;
     return -1;
   });
 
